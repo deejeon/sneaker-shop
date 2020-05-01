@@ -45,8 +45,8 @@ def add_shoe(request):
         brand = Brand.objects.get(name=request.POST['brand'])
     else:
         brand = Brand.objects.create(name = request.POST['brand'])
-    if len(ShoeModel.objects.filter(name=request.POST['model']))>0:
-        model = ShoeModel.objects.get(name=request.POST['model'])
+    if len(ShoeModel.objects.filter(model=request.POST['model']))>0:
+        model = ShoeModel.objects.get(model=request.POST['model'])
     else:
         model = ShoeModel.objects.create(model = request.POST['model'], price = request.POST['price'], brand=brand, desc=request.POST['desc'])
     
