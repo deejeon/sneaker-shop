@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+<body>
+    <h1>View Orders</h1>
+    <table style='width:100%'>
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Email</th>
+                <th>User</th>
+                <th>Address</th>
+                <th>City, State Zip</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{order.id}}</td>
+                <td>{{order.user.email}}</td>
+                <td>{{order.user.first_name}} {{order.user.last_name}}</td>
+                <td>{{order.user.address.address}} {{order.user.address.address2}}</td>
+                <td>{{order.user.address.city}}, {{order.user.address.state}} {{order.user.address.zipcode}}</td>
+                <td>{{order.created_at}}</td>
+                <form action="/admin/update_status" method='post'>
+                    {% csrf_token %}
+                    <td>{{order.status}} 
+                        <select name='status' selected="Shipped">
+                            <option value="Processing" {% if order.status == "Processing" %} selected {% endif %}>Processing</option>
+                            <option value="Shipped" {% if order.status == "Shipped" %} selected {% endif %}>Shipped</option>
+                            <option value="Canceled" {% if order.status == "Canceled" %} selected {% endif %}>Canceled</option>
+                        </select>
+                        <input type="hidden" name='order_id' value='{{order.id}}'>
+                        <button>Update</button>
+                    </td>
+                </form>
+                <th><a href="/admin/order/{{order.id}}">Click for Details</a></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

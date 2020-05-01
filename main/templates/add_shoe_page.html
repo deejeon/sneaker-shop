@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Shoe</title>
+</head>
+<script>
+    var counter = 1;
+    var limit = 5;
+    function addInput(divName){
+        if (counter == limit)  {
+            alert("You have reached the limit of adding " + counter + " inputs");
+        }
+        else {
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "Color " + (counter + 1) + ": <input type='text' name='colors[]'> Upload Image: <input type='file' name='images[]'>";
+            document.getElementById(divName).appendChild(newdiv);
+            counter++;
+        }
+}
+
+</script>
+<body>
+    <h1>Add a new shoe:</h1>
+    <form action="/add_shoe" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label>Brand: </label>
+            <input type='text' name='brand'>
+        </div>
+        <div>
+            <label>Model: </label>
+            <input type='text' name='model'>
+        </div>
+        <div>
+            <label>Price: </label>
+            <input type='text' name='price'>
+        </div>
+        <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+        <div id="dynamicInput">
+          Color 1: <input type="text" name="colors[]"> Upload Image: <input type='file' name="images[]">
+        </div>
+        <input type="button" value="Add another color" onClick="addInput('dynamicInput');">
+        <div>
+            <label>Description: </label>
+            <textarea name="desc" cols="50" rows="10"></textarea>
+        </div>
+        <button>Submit</button>
+    </form>
+</body>
+</html>

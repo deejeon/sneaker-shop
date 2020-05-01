@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe List Page</title>
+    <link rel="stylesheet" href="{% static 'css/shoe_list.css' %}">
+</head>
+<body>
+    <h1>Here's the Shoe List!</h1>
+    <form action='/admin/shoe_list' method='post'>
+        {% csrf_token %}
+        <label for="model_list">Filter by Model:</label>
+        <select id="model_list" name='model_id'>
+            <option value='all'>All</option>
+            {% for model in models %}
+            <option value='{{model.id}}'>{{model.brand.name}} {{model.model}}</option>
+            {% endfor %}
+        </select><button>Filter</button>
+    </form>
+    <table style='width:100%'>
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Quantity Sold</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shoe in shoes %}
+            <tr>
+                <td>{{shoe.color.model.brand.name}}</td>
+                <td>{{shoe.color.model.model}}</td>
+                <td>{{shoe.color.color}}</td>
+                <td>{{shoe.size}}</td>
+                <form action='/admin/update_price' method='post'>
+                    {% csrf_token %}
+                    <td>${{shoe.color.model.price}}
+                        <input type='hidden' name='shoe_id' value='{{shoe.color.model.id}}'>
+                        <input type='text' name='new_price' size='5'><button>Update</button>
+                    </td>
+                </form>
+                <form action='/admin/update_inv' method='post'>
+                    {% csrf_token %}
+                    <td>{{shoe.inventory}}
+                        <input type='hidden' name='shoe_id' value='{{shoe.id}}'>
+                        <input type='text' name='new_inventory' size='3'><button>Update</button>
+                    </td>
+                </form>
+                <td>{{shoe.quantity_sold}}</td>
+                <form action='/admin/update_img' method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <td><img src='{{shoe.color.image.url}}' height='20px'>
+                        <input type='hidden' name='shoe_color_id' value='{{shoe.color.id}}'>
+                        <input type='file' name="new_image"><button>Update</button>
+                    </td>
+                </form>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

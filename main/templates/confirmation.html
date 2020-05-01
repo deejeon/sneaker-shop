@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed</title>
+</head>
+<body>
+    <h1>Order Confirmed</h1>
+    <h3>Order Cart</h2>
+    <table style='width:60%'>
+        <thead>
+            <tr>
+                <th>Shoe</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.cart.cart_items.all %}
+            <tr>
+                <td>{{item.shoe.color.model.brand.name}} {{item.shoe.color.model.model}}</th>
+                <td>{{item.shoe.color.color}}</th>
+                <td>{{item.shoe.size}}</th>
+                <td>${{item.shoe.color.model.price}}</th>
+                <td>{{item.quantity}}</td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div><p>Total: ${{order.cart.total}}</p></div>
+    <h3>Shipping Address:</h3>
+    <p>
+        {{order.user.first_name}} {{order.user.last_name}}<br>
+        {{order.user.address.address}} {{order.user.address.address2}}<br>
+        {{order.user.address.city}}, {{order.user.address.state}} {{order.user.address.zipcode}}
+    </p>
+    <h3>Billing Address:</h3>
+    <p>
+        {{order.credit_card.first_name}} {{order.credit_card.last_name}}<br>
+        {{order.credit_card.address.address}} {{order.credit_card.address.address2}}<br>
+        {{order.credit_card.address.city}}, {{order.credit_card.address.state}} {{order.credit_card.address.zipcode}}
+    </p>
+    <h3>Credit Card Info:</h3>
+    <p>
+        Credit Card Number: {{order.credit_card.number}}<br>
+        Security Code: {{order.credit_card.security_code}}<br>
+        Expiration Date: {{order.credit_card.expiration_date}}<br>
+    </p>
+    <h3>Order Status</h3>
+    <p>
+        {{order.status}}
+    </p>
+</body>
+</html>

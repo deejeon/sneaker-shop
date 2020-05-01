@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+</head>
+<body>
+    <h1>Login with Admin Password</h1>
+    <form action='/admin/login' method='post'>
+        {% csrf_token %}
+        <label>Password: </label><input type='password' name='password'>
+        <button>Login as Admin</button>
+    </form>
+    {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                {% endfor %}
+            </ul>
+    {% endif %}
+</body>
+</html>
