@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/order/<int:order_id>', views.order_details),
     path('admin', views.admin_menu),
     path('admin/login', views.admin_login),
-    path('admin/logout', views.admin_logout)
+    path('admin/logout', views.admin_logout),
+    path('browse/<str:browse_filter>', views.catalog_page),
 ]
