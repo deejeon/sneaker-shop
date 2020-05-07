@@ -9,12 +9,16 @@ def index(request):
         request.session['cart_id']=cart.id
 
     recent_shoes = ShoeColor.objects.all().order_by('-created_at')[0:6]
+
     context = {
-        'recent_shoes': recent_shoes
+        'recent_shoes': recent_shoes,
+        'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
+        'nikes': Brand.objects.get(name="Nike").models.all(),
+        'adidases': Brand.objects.get(name="Adidas").models.all(),
     }
     return render(request, 'home.html', context)
 
-def catalog_page(request):
+def catalog_page(request, browse_filter = "all"):
     if 'cart' not in request.session:
         cart = Cart.objects.create(total=0)
         request.session['cart']=cart.id
@@ -22,12 +26,32 @@ def catalog_page(request):
     all_brands = Brand.objects.all().order_by('name')
     all_models = ShoeModel.objects.all().order_by('model')
     sizes = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0]
+    if browse_filter == "all":
+        category = "All Sneakers"
+        display_shoes = ShoeColor.objects.all()
+    elif browse_filter == "air_jordan":
+        category = "Air Jordan"
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Air Jordan")
+    elif browse_filter == "nike":
+        category = "Nike"
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Nike")
+    elif browse_filter == "adidas":
+        category = "Adidas"
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Adidas")
+    else:
+        model = ShoeModel.objects.get(id = int(browse_filter))
+        category = model.model
+        display_shoes = ShoeColor.objects.filter(model = model)
 
     context = {
-        'shoes': ShoeColor.objects.all(),
+        'shoes': display_shoes,
         'all_brands': all_brands,
         'all_models': all_models,
         'sizes': sizes,
+        'category': category,
+        'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
+        'nikes': Brand.objects.get(name="Nike").models.all(),
+        'adidases': Brand.objects.get(name="Adidas").models.all(),
     }
     return render(request, 'catalog.html', context)
 
@@ -120,6 +144,9 @@ def shoe_page(request, shoe_id):
     context = {
         'shoe': ShoeColor.objects.get(id=shoe_id),
         'related_shoes': related_shoes,
+        'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
+        'nikes': Brand.objects.get(name="Nike").models.all(),
+        'adidases': Brand.objects.get(name="Adidas").models.all(),
     }
 
     return render(request, 'shoe_page.html', context)
@@ -145,7 +172,10 @@ def cart(request):
         cart = Cart.objects.create(total=0)
         request.session['cart_id']=cart.id
     context = {
-        'cart': Cart.objects.get(id=request.session['cart_id'])
+        'cart': Cart.objects.get(id=request.session['cart_id']),
+        'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
+        'nikes': Brand.objects.get(name="Nike").models.all(),
+        'adidases': Brand.objects.get(name="Adidas").models.all(),
     }
 
     return render(request, 'cart.html', context)
@@ -171,7 +201,7 @@ def checkout(request):
         return redirect("/")
 
     context = {
-        'cart': Cart.objects.get(id=request.session['cart_id'])
+        'cart': Cart.objects.get(id=request.session['cart_id']),
     }
 
     return render(request,'checkout_guest.html',context)

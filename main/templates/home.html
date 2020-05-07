@@ -52,10 +52,11 @@
                     AIR JORDAN
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        {% for air_jordan in air_jordans %}
+                        <a class="dropdown-item" href="/browse/{{air_jordan.id}}">{{air_jordan.model}}</a>
+                        {% endfor %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/browse/air_jordan">Browse Air Jordan</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -63,10 +64,11 @@
                     NIKE
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        {% for nike in nikes %}
+                        <a class="dropdown-item" href="/browse/{{nike.id}}">{{nike.model}}</a>
+                        {% endfor %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/browse/nike">Browse Nike</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -74,10 +76,11 @@
                     ADIDAS
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        {% for adidas in adidases %}
+                        <a class="dropdown-item" href="/browse/{{adidas.id}}">{{adidas.model}}</a>
+                        {% endfor %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/browse/adidas">Browse Adidas</a>
                     </div>
                 </li>
                 <li class="nav-item">
