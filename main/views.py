@@ -35,7 +35,7 @@ def catalog_page(request, browse_filter = "all"):
     if request.method == 'GET' and request.GET.get('max'):
         max_price = request.GET['max']
     else:
-        max_price = float("inf")
+        max_price = 10000
 
 
     if browse_filter == "all":
@@ -67,6 +67,8 @@ def catalog_page(request, browse_filter = "all"):
         'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
         'nikes': Brand.objects.get(name="Nike").models.all(),
         'adidases': Brand.objects.get(name="Adidas").models.all(),
+        'max_price': max_price,
+        'min_price': min_price,
     }
     return render(request, 'catalog.html', context)
 
