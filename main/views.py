@@ -29,7 +29,7 @@ def catalog_page(request, browse_filter = "all"):
     if browse_filter == "all":
         category = "All Sneakers"
         display_shoes = ShoeColor.objects.all()
-    elif browse_filter == "air_jordan":
+    elif browse_filter == "air jordan":
         category = "Air Jordan"
         display_shoes = ShoeColor.objects.filter(model__brand__name="Air Jordan")
     elif browse_filter == "nike":
