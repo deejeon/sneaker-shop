@@ -283,9 +283,13 @@ def checkout_process_guest(request):
     return redirect('/confirmation')
 
 def confirmation(request):
+    current_order = Order.objects.get(id = request.session['order_id'])
+
+    cc_last_digits = current_order.credit_card.number % 10000
 
     context = {
-        'order': Order.objects.get(id=request.session['order_id'])
+        'order': current_order,
+        'cc_last_digits': cc_last_digits
     }
 
     return render(request, 'confirmation.html', context)
