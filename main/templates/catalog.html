@@ -152,17 +152,19 @@
                                             </header>
                                             <div class="filter-content collapse" id="collapse_aside3" style="">
                                                 <div class="card-body">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Min</label>
-                                                            <input class="form-control" placeholder="$0" type="number">
+                                                    <form>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Min</label>
+                                                                <input class="form-control" placeholder="$" name="min" min="0" type="number" value={{min_price}}>
+                                                            </div>
+                                                            <div class="form-group text-right col-md-6">       
+                                                                <label>Max</label>
+                                                                <input class="form-control" placeholder="$" name="max" min="0" type="number" value={{max_price}}>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group text-right col-md-6">       
-                                                            <label>Max</label>
-                                                            <input class="form-control" placeholder="$100" type="number">
-                                                        </div>
-                                                    </div>
-                                                    <a href="#" class="highlight-button btn btn-medium button xs-margin-bottom-five" data-abc="true">Apply Now</a>
+                                                        <button href="#" class="highlight-button btn btn-medium button xs-margin-bottom-five" data-abc="true">Apply Now</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </article>

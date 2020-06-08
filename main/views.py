@@ -26,22 +26,37 @@ def catalog_page(request, browse_filter = "all"):
     all_brands = Brand.objects.all().order_by('name')
     all_models = ShoeModel.objects.all().order_by('model')
     sizes = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0]
+
+    if request.method == 'GET' and request.GET.get('min'):
+        min_price = request.GET['min']
+    else:
+        min_price = 0
+
+    if request.method == 'GET' and request.GET.get('max'):
+        max_price = request.GET['max']
+    else:
+        max_price = 10000
+
+
     if browse_filter == "all":
         category = "All Sneakers"
-        display_shoes = ShoeColor.objects.all()
+        display_shoes = ShoeColor.objects.filter(model__price__gte=min_price).filter(model__price__lte=max_price)
     elif browse_filter == "air jordan":
         category = "Air Jordan"
-        display_shoes = ShoeColor.objects.filter(model__brand__name="Air Jordan")
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Air Jordan").filter(model__price__gte=min_price).filter(model__price__lte=max_price)
     elif browse_filter == "nike":
         category = "Nike"
-        display_shoes = ShoeColor.objects.filter(model__brand__name="Nike")
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Nike").filter(model__price__gte=min_price).filter(model__price__lte=max_price)
     elif browse_filter == "adidas":
         category = "Adidas"
-        display_shoes = ShoeColor.objects.filter(model__brand__name="Adidas")
+        display_shoes = ShoeColor.objects.filter(model__brand__name="Adidas").filter(model__price__gte=min_price).filter(model__price__lte=max_price)
     else:
         model = ShoeModel.objects.get(id = int(browse_filter))
         category = model.model
-        display_shoes = ShoeColor.objects.filter(model = model)
+        display_shoes = ShoeColor.objects.filter(model = model).filter(model__price__gte=min_price).filter(model__price__lte=max_price)
+
+    print(max_price)
+    print(min_price)
 
     context = {
         'shoes': display_shoes,
@@ -52,6 +67,8 @@ def catalog_page(request, browse_filter = "all"):
         'air_jordans': Brand.objects.get(name="Air Jordan").models.all(),
         'nikes': Brand.objects.get(name="Nike").models.all(),
         'adidases': Brand.objects.get(name="Adidas").models.all(),
+        'max_price': max_price,
+        'min_price': min_price,
     }
     return render(request, 'catalog.html', context)
 
